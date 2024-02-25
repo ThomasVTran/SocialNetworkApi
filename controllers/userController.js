@@ -75,7 +75,7 @@ module.exports = {
         try {
             const newFriend = await User.findOneAndUpdate(
                 { _id: req.params.userId },
-                { $addToSet: { friend: req.params.friend_id } },
+                { $addToSet: { friends: req.params.friendId } },
                 { runValidators: true, new: true }
             );
 
@@ -94,7 +94,7 @@ module.exports = {
         try {
             const user = await User.findOneAndUpdate(
                 { _id: req.params.userId },
-                { $pull: { friends: { friendId: req.params.friendId } } },
+                { $pull: { friends: req.params.friendId } },
                 { runValidators: true, new: true }
             );
 
@@ -102,7 +102,7 @@ module.exports = {
                 return res.status(404).json({ message: 'No user with this id!' });
             }
 
-            res.json(User);
+            res.json(user);
         } catch (err) {
             res.status(500).json(err);
             console.log(err);
