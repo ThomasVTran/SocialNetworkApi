@@ -5,6 +5,7 @@ const thoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
+            required: true,
             minLength: 1,
             maxLength: 280,
         },
@@ -13,18 +14,25 @@ const thoughtSchema = new Schema(
             default: Date.now,
         },
         username: {
-            type: string,
+            type: String,
             required: true,
         },
         reactions: [Reaction],
     },
+    {
+        toJSON: {
+        virtuals: true,
+        getters: true,
+    },
+    id: false,
+}
 );
 
 thoughtSchema
-    .virtual('getResponses')
+    .virtual('getReactions')
     // Getter
     .get(function () {
-        return this.Reactions.length;
+        return this.reactions.length;
     });
 
 
